@@ -7,10 +7,16 @@
       <h1>Pinia Tasks</h1>
     </header>
 
+    <div class="new-task-form">
+      <TaskForm />
+    </div>
+
     <nav class="filter">
       <button @click="filter = 'all'">All tasks</button>
       <button @click="filter = 'favs'">Fav tasks</button>
     </nav>
+
+    <div class="loading" v-if="taskStore.loading">Loading tasks...</div>
 
     <div class="task-list" v-if="filter === 'all'">
       <p>You have {{ taskStore.totalCount }} tasks left to do.</p>
@@ -30,10 +36,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import TaskForm from './components/TaskForm.vue'
 import TaskDetails from './components/TaskDetails.vue'
 import { useTaskStore } from './stores/TaskStore'
 
 const taskStore = useTaskStore()
 const filter = ref('all')
-console.log(taskStore.favCount)
+taskStore.getTasks()
 </script>
